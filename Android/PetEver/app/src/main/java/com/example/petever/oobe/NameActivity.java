@@ -5,6 +5,7 @@ import androidx.camera.core.TorchState;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -32,6 +33,8 @@ public class NameActivity extends AppCompatActivity {
     private boolean isNameSet = false;
     private boolean isRelationSet = false;
 
+    private SharedPreferences pf;
+
     private void hideKeyboard() {
         InputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
@@ -57,6 +60,8 @@ public class NameActivity extends AppCompatActivity {
 
         name_new.setTextColor(Color.BLACK);
         relation_new.setTextColor(Color.BLACK);
+
+        pf = getSharedPreferences("PetInfo", MODE_PRIVATE);
 
         nameLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -112,6 +117,9 @@ public class NameActivity extends AppCompatActivity {
                         // Save the Pet Name into global variable, petName
                         petName = v.getText().toString();
                         isNameSet = true;
+                        SharedPreferences.Editor editor = pf.edit();
+                        editor.putString("PetName", petName);
+                        editor.commit();
                         hidden_layer.setVisibility(View.INVISIBLE);
                 }
                 name_new.setTranslationZ(-1);
@@ -139,6 +147,9 @@ public class NameActivity extends AppCompatActivity {
                         // Save the Relationship into global variable, petRelationship
                         petRelationship = v.getText().toString();
                         isRelationSet = true;
+                        SharedPreferences.Editor editor = pf.edit();
+                        editor.putString("PetRelationship", petRelationship);
+                        editor.commit();
                         hidden_layer.setVisibility(View.INVISIBLE);
                 }
                 relation_new.setTranslationZ(-1);

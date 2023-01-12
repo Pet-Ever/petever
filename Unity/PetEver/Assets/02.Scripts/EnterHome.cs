@@ -7,14 +7,16 @@ public class EnterHome : MonoBehaviour
 {
     
     GameObject ManCharacter;
+    GameObject MainCanvas;
     GameObject MainEvent;
     private bool isEntered = false;
     private Vector3 m_currentDirection = Vector3.zero;
 
     void Start()
     {
-        ManCharacter = GameObject.FindGameObjectWithTag("Owner");
-        MainEvent = GameObject.Find("MainEventSystem");
+        ManCharacter = GameObject.FindGameObjectWithTag("Owner");      
+        MainCanvas = GameObject.FindGameObjectWithTag("UICanvas");
+        MainEvent = GameObject.FindGameObjectWithTag("MainEventSystem");
     }
    
     private void Awake()
@@ -24,21 +26,24 @@ public class EnterHome : MonoBehaviour
 
     IEnumerator<object> LoadYourAsyncScene()
     {
+        string sceneName = "newScene";
         // Set the current Scene to be able to unload it later
         Scene currentScene = SceneManager.GetActiveScene();
  
         // The Application loads the Scene in the background at the same time as the current Scene.
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("newScene", LoadSceneMode.Additive);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
  
         // Wait until the last operation fully loads to return anything
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
+
  
         // Move the GameObject (you attach this in the Inspector) to the newly loaded Scene
-        SceneManager.MoveGameObjectToScene(ManCharacter, SceneManager.GetSceneByName("newScene"));
-        SceneManager.MoveGameObjectToScene(MainEvent, SceneManager.GetSceneByName("newScene"));
+        SceneManager.MoveGameObjectToScene(ManCharacter, SceneManager.GetSceneByName(sceneName));
+        SceneManager.MoveGameObjectToScene(MainEvent, SceneManager.GetSceneByName(sceneName));
+        SceneManager.MoveGameObjectToScene(MainCanvas, SceneManager.GetSceneByName(sceneName));
         // Unload the previous Scene
         SceneManager.UnloadSceneAsync(currentScene);
     }

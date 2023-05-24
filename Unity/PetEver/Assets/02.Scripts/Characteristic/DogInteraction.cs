@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DogInteraction : MonoBehaviour
 {
@@ -25,7 +26,6 @@ public class DogInteraction : MonoBehaviour
     // https://ssscool.tistory.com/336
     void Update()
     {   
-
         if (DogCamera == null)
         {
             DogCamera = GameObject.Find("CharacterCamera");
@@ -99,5 +99,10 @@ public class DogInteraction : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void UniqueAction()
+    {
+        dogAnimator.SetTrigger("uniqueMotion");
     }
 }
